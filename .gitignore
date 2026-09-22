@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .sanity/
+*.zip
 .env
 .env.local
 .vercel/

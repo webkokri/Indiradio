@@ -3,10 +3,17 @@
 Live radio & TV streaming site for Indi Radio, built as three separate apps:
 
 ```
-client/   React + Vite frontend (Framer Motion animations, deployed to indiradio.ca)
-server/   Node.js backend (Vercel serverless functions — contact form, etc.)
+client/   React + Vite frontend (Framer Motion animations) — hosted on Hostinger, indiradio.ca
+server/   Node.js backend (Vercel serverless functions — contact form only)
 studio/   Sanity Studio (the CMS admin used to manage all page/blog content)
 ```
+
+## Live deployments
+
+- **Site**: https://indiradio.ca (hosted on Hostinger, static build uploaded manually — see "Deploying the frontend" below)
+- **Backend API**: https://server-dun-eta.vercel.app (Vercel) — `/api/health`, `/api/contact`
+- **Admin panel (Sanity Studio)**: https://indiradio.sanity.studio — log in with the GitHub account connected to the project
+- **Sanity project**: "Indi Radio", project ID `7tly58zg`, dataset `production`, org `ocx88wooa`
 
 ## How content flows
 
@@ -25,64 +32,85 @@ Studio (content editors) → Sanity (hosted content API)
                                                        Contact form on the site
 ```
 
-## Getting started
+## Getting started (local development)
 
-You'll need Node.js 18+ installed locally (this scaffold was created without it
-available on this machine, so nothing has been `npm install`ed or run yet).
+You'll need Node.js 18+ installed locally.
 
-### 1. Create a Sanity project
+### 1. Sanity Studio
 
 ```bash
 cd studio
 npm install
-npx sanity login
-npx sanity init   # choose "create new project", note the Project ID
+cp .env.example .env   # already points at the real project ID/dataset
+npm run dev             # Studio runs at http://localhost:3333
 ```
 
-Copy `.env.example` to `.env` and fill in the project ID/dataset, then:
+Log in with `npx sanity login` if prompted. Fill in **Site Settings**, **Home Page**,
+**About Page**, **Radio Page**, and **Contact Page** (each is a singleton), plus add
+**Blog Post**, **Radio Show**, and **Team Member** entries as needed.
 
-```bash
-npm run dev   # Studio runs at http://localhost:3333
-```
-
-Open the Studio and fill in **Site Settings**, **Home Page**, **About Page**,
-**Radio Page**, and **Contact Page** (each is a singleton), plus add some
-**Blog Post**, **Radio Show**, and **Team Member** entries.
-
-### 2. Run the frontend
+### 2. Frontend
 
 ```bash
 cd client
 npm install
-cp .env.example .env   # set VITE_SANITY_PROJECT_ID / VITE_SANITY_DATASET
-npm run dev            # http://localhost:5173
+cp .env.example .env   # already points at the real Sanity project + deployed API
+npm run dev             # http://localhost:5173
 ```
 
-### 3. Run the backend
+### 3. Backend
 
 ```bash
 cd server
 npm install
-cp .env.example .env   # set SANITY_PROJECT_ID/DATASET + a write token
-npm run dev            # vercel dev, http://localhost:3000 by default
+cp .env.example .env   # set SANITY_WRITE_TOKEN (see below) — never commit this
+npm run dev             # vercel dev, http://localhost:3000 by default
 ```
 
-Generate a Sanity write token from https://www.sanity.io/manage → your project →
-API → Tokens (Editor permission), and put it in `server/.env` as
+Generate a Sanity write token from https://www.sanity.io/manage → the "Indi Radio"
+project → API → Tokens (role: `write`), and put it in `server/.env` as
 `SANITY_WRITE_TOKEN`. This token must never be exposed to the frontend.
 
-## Deployment
+## Deploying the frontend (Hostinger)
 
-- **`client/`** → deploy as its own Vercel project, connect the custom domain
-  `indiradio.ca`. Set the `VITE_*` env vars from `client/.env.example` in the
-  Vercel project settings.
-- **`server/`** → deploy as a separate Vercel project (e.g. `api.indiradio.ca`
-  or the default `*.vercel.app` URL). Set `VITE_API_BASE_URL` in the client
-  project to point at it, and set `ALLOWED_ORIGINS` in the server project to
-  include `https://indiradio.ca`.
-- **`studio/`** → deploy with `npx sanity deploy` (hosted free at
-  `https://your-studio-name.sanity.studio`), or embed it as a route in the
-  frontend later if you'd prefer editors to log in from indiradio.ca itself.
+The frontend is a static build — there's no server-side build step on Hostinger, so
+you build locally and upload the output:
+
+```bash
+cd client
+# make sure .env has the real production values (see .env.example) before building —
+# unlike Vercel, a static host has no build-time env injection; whatever is baked
+# into the build at `npm run build` time is what ships.
+npm run build
+cd dist && zip -r ../../indiradio-site.zip . && cd ../..
+```
+
+Then in Hostinger's **hPanel → Files → File Manager → public_html**:
+1. Upload `indiradio-site.zip`.
+2. Extract it directly into `public_html` (not a subfolder).
+3. Delete the zip.
+4. Confirm a `.htaccess` file exists at the `public_html` root (it's a hidden file —
+   enable "show hidden files" in File Manager to check). It's required for
+   client-side routing (About/Radio/Blog/Contact links) to work on refresh.
+
+## Deploying the backend (Vercel)
+
+```bash
+cd server
+vercel --prod
+```
+
+Env vars are already set on the Vercel project (`SANITY_PROJECT_ID`, `SANITY_DATASET`,
+`SANITY_WRITE_TOKEN`, `ALLOWED_ORIGINS`). If `ALLOWED_ORIGINS` ever needs updating
+(e.g. a new domain), redeploy afterward — env var changes don't apply to already-built
+deployments.
+
+## Deploying the Studio
+
+```bash
+cd studio
+npm run deploy   # sanity deploy — hostname is pinned to "indiradio" in sanity.cli.js
+```
 
 ## Stack
 
@@ -90,3 +118,4 @@ API → Tokens (Editor permission), and put it in `server/.env` as
 - Sanity (Studio + Content API) as the CMS
 - Node.js serverless functions on Vercel for the contact form
 - `hls.js` for the live TV stream, native `Audio` for the radio stream
+- Static hosting on Hostinger for the built frontend

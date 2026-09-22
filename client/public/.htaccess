@@ -1,0 +1,11 @@
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# Serve real files/directories as-is
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Everything else goes through the React Router SPA
+RewriteRule ^ index.html [L]

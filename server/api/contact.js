@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { sanityWriteClient } from '../lib/sanityWriteClient.js'
+import { sanityWriteClient, isSanityWriteConfigured } from '../lib/sanityWriteClient.js'
 import { applyCors } from '../lib/cors.js'
 
 function isValidEmail(email) {
@@ -45,6 +45,12 @@ export default async function handler(req, res) {
 
   if (!isValidEmail(email)) {
     res.status(400).json({ error: 'Please provide a valid email address.' })
+    return
+  }
+
+  if (!isSanityWriteConfigured) {
+    console.error('Contact form submitted but SANITY_PROJECT_ID/SANITY_WRITE_TOKEN are not set.')
+    res.status(500).json({ error: 'Contact form is not configured yet. Please try again later.' })
     return
   }
 

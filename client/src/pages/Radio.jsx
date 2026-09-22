@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import PageTransition from '../components/PageTransition.jsx'
 import RadioPlayer from '../components/RadioPlayer.jsx'
+import CustomCode from '../components/CustomCode.jsx'
 import { PageLoader } from '../components/PageState.jsx'
 import { useSanityQuery } from '../hooks/useSanityQuery.js'
 import { radioPageQuery } from '../lib/queries.js'
@@ -27,6 +28,7 @@ export default function Radio() {
 
   return (
     <PageTransition>
+      <CustomCode code={page.customCode} />
       <section className="border-b border-white/10 bg-ink py-20 text-white">
         <div className="container-page text-center">
           {error && (

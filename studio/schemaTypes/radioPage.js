@@ -1,3 +1,5 @@
+import { customCodeField } from './fields/customCode'
+
 export default {
   name: 'radioPage',
   title: 'Radio Page',
@@ -18,6 +20,7 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'show' }] }],
     },
+    customCodeField,
   ],
   preview: {
     prepare() {

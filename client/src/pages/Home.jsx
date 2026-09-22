@@ -4,6 +4,7 @@ import { HiOutlineGlobeAlt, HiOutlineUserGroup, HiArrowRight } from 'react-icons
 import { HiOutlineRadio } from 'react-icons/hi2'
 import PageTransition from '../components/PageTransition.jsx'
 import VideoPlayer from '../components/VideoPlayer.jsx'
+import CustomCode from '../components/CustomCode.jsx'
 import { PageLoader } from '../components/PageState.jsx'
 import { useSanityQuery } from '../hooks/useSanityQuery.js'
 import { homePageQuery } from '../lib/queries.js'
@@ -64,6 +65,7 @@ export default function Home() {
 
   return (
     <PageTransition>
+      <CustomCode code={page.customCode} />
       {error && (
         <div className="border-b border-white/10 bg-ink px-6 py-2 text-center text-xs text-white/40">
           {error}

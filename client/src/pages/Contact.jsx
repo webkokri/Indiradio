@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { HiMail, HiPhone, HiLocationMarker } from 'react-icons/hi'
 import PageTransition from '../components/PageTransition.jsx'
 import ContactForm from '../components/ContactForm.jsx'
+import CustomCode from '../components/CustomCode.jsx'
 import { PageLoader } from '../components/PageState.jsx'
 import { useSanityQuery } from '../hooks/useSanityQuery.js'
 import { contactPageQuery } from '../lib/queries.js'
@@ -21,6 +22,7 @@ export default function Contact() {
 
   return (
     <PageTransition>
+      <CustomCode code={page.customCode} />
       <section className="border-b border-white/10 bg-ink py-20 text-white">
         <div className="container-page">
           <p className="eyebrow">Contact</p>

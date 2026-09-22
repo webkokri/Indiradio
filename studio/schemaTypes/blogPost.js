@@ -1,3 +1,5 @@
+import { customCodeField } from './fields/customCode'
+
 export default {
   name: 'blogPost',
   title: 'Blog Post',
@@ -25,6 +27,7 @@ export default {
         { type: 'image', options: { hotspot: true } },
       ],
     },
+    customCodeField,
   ],
   orderings: [
     {

@@ -1,3 +1,5 @@
+import { customCodeField } from './fields/customCode'
+
 export default {
   name: 'aboutPage',
   title: 'About Page',
@@ -18,6 +20,7 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'teamMember' }] }],
     },
+    customCodeField,
   ],
   preview: {
     prepare() {

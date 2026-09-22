@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link, useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import PageTransition from '../components/PageTransition.jsx'
+import CustomCode from '../components/CustomCode.jsx'
 import { PageLoader, PageError } from '../components/PageState.jsx'
 import { useSanityQuery } from '../hooks/useSanityQuery.js'
 import { blogPostBySlugQuery } from '../lib/queries.js'
@@ -31,6 +32,7 @@ export default function BlogPost() {
 
   return (
     <PageTransition className="container-page max-w-3xl py-16">
+      <CustomCode code={post.customCode} />
       <Link to="/blog" className="text-sm font-semibold text-accent">
         ← Back to Blog
       </Link>

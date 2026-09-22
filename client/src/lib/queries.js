@@ -5,7 +5,9 @@ export const siteSettingsQuery = /* groq */ `*[_type == "siteSettings"][0]{
   contactEmail,
   contactPhone,
   address,
-  socialLinks
+  socialLinks,
+  headerCode,
+  footerCode
 }`
 
 export const homePageQuery = /* groq */ `*[_type == "homePage"][0]{
@@ -16,6 +18,7 @@ export const homePageQuery = /* groq */ `*[_type == "homePage"][0]{
   videoStreamUrl,
   videoPoster,
   highlights,
+  customCode,
   "featuredShows": featuredShows[]->{
     _id, name, host, day, time, description, image
   }
@@ -26,6 +29,7 @@ export const aboutPageQuery = /* groq */ `*[_type == "aboutPage"][0]{
   mission,
   story,
   heroImage,
+  customCode,
   "teamMembers": teamMembers[]->{
     _id, name, role, photo, bio
   }
@@ -36,6 +40,7 @@ export const radioPageQuery = /* groq */ `*[_type == "radioPage"][0]{
   description,
   streamUrl,
   coverImage,
+  customCode,
   "schedule": schedule[]->{
     _id, name, host, day, time, description, image
   }
@@ -48,7 +53,8 @@ export const contactPageQuery = /* groq */ `*[_type == "contactPage"][0]{
   phone,
   email,
   officeHours,
-  mapEmbedUrl
+  mapEmbedUrl,
+  customCode
 }`
 
 export const blogPostsQuery = /* groq */ `*[_type == "blogPost"] | order(publishedAt desc){
@@ -71,5 +77,6 @@ export const blogPostBySlugQuery = /* groq */ `*[_type == "blogPost" && slug.cur
   author,
   publishedAt,
   tags,
-  body
+  body,
+  customCode
 }`

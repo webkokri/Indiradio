@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { PortableText } from '@portabletext/react'
 import PageTransition from '../components/PageTransition.jsx'
+import CustomCode from '../components/CustomCode.jsx'
 import { PageLoader } from '../components/PageState.jsx'
 import { useSanityQuery } from '../hooks/useSanityQuery.js'
 import { aboutPageQuery } from '../lib/queries.js'
@@ -38,6 +39,7 @@ export default function About() {
 
   return (
     <PageTransition>
+      <CustomCode code={page.customCode} />
       {error && (
         <div className="border-b border-ink/10 bg-white px-6 py-2 text-center text-xs text-ink/40">
           {error}

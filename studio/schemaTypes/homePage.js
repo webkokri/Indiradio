@@ -1,3 +1,5 @@
+import { customCodeField } from './fields/customCode'
+
 export default {
   name: 'homePage',
   title: 'Home Page',
@@ -41,6 +43,7 @@ export default {
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'show' }] }],
     },
+    customCodeField,
   ],
   preview: {
     prepare() {

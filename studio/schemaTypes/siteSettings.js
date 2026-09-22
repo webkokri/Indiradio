@@ -20,6 +20,22 @@ export default {
         { name: 'twitter', title: 'Twitter / X URL', type: 'url' },
       ],
     },
+    {
+      name: 'headerCode',
+      title: 'Header Code',
+      type: 'text',
+      rows: 8,
+      description:
+        'Raw HTML/JavaScript injected into <head> on every page — e.g. Google Ads/Analytics tags, site verification meta tags. Only paste code from sources you trust.',
+    },
+    {
+      name: 'footerCode',
+      title: 'Footer Code',
+      type: 'text',
+      rows: 8,
+      description:
+        'Raw HTML/JavaScript injected just before </body> on every page — e.g. conversion tracking pixels, chat widgets. Only paste code from sources you trust.',
+    },
   ],
   preview: {
     prepare() {

@@ -1,3 +1,5 @@
+import { customCodeField } from './fields/customCode'
+
 export default {
   name: 'contactPage',
   title: 'Contact Page',
@@ -10,6 +12,7 @@ export default {
     { name: 'email', title: 'Email', type: 'string' },
     { name: 'officeHours', title: 'Office Hours', type: 'string' },
     { name: 'mapEmbedUrl', title: 'Map Embed URL', type: 'url' },
+    customCodeField,
   ],
   preview: {
     prepare() {

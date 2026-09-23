@@ -10,6 +10,28 @@ export const siteSettingsQuery = /* groq */ `*[_type == "siteSettings"][0]{
   footerCode
 }`
 
+const navLinkProjection = `{
+    label,
+    linkType,
+    internalPath,
+    url,
+    openInNewTab,
+    "pageSlug": page->slug.current
+  }`
+
+export const navigationQuery = /* groq */ `*[_type == "navigation"][0]{
+  "headerLinks": headerLinks[]${navLinkProjection},
+  "footerLinks": footerLinks[]${navLinkProjection}
+}`
+
+export const customPageQuery = /* groq */ `*[_type == "page" && slug.current == $slug][0]{
+  _id,
+  title,
+  subtitle,
+  body,
+  customCode
+}`
+
 export const homePageQuery = /* groq */ `*[_type == "homePage"][0]{
   heroTitle,
   heroSubtitle,

@@ -1,9 +1,12 @@
 import { FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { SOCIAL_LINKS, STATION_NAME } from '../config.js'
+import { useNavigation } from '../context/NavigationContext.jsx'
 import logo from '../assets/logo.webp'
 
 export default function Footer() {
+  const { footerLinks } = useNavigation()
+
   return (
     <footer className="border-t border-white/10 bg-ink text-white/60">
       <div className="container-page grid gap-10 py-16 md:grid-cols-3">
@@ -20,11 +23,28 @@ export default function Footer() {
         <div>
           <p className="eyebrow mb-4">Explore</p>
           <ul className="space-y-2 text-sm">
-            <li><Link to="/" className="hover:text-white">Home</Link></li>
-            <li><Link to="/about" className="hover:text-white">About Us</Link></li>
-            <li><Link to="/radio" className="hover:text-white">Radio</Link></li>
-            <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
-            <li><Link to="/contact" className="hover:text-white">Contact Us</Link></li>
+            {footerLinks.map((link, i) => (
+              <li key={`${link.to}-${i}`}>
+                {link.external ? (
+                  <a
+                    href={link.to}
+                    target={link.newTab ? '_blank' : undefined}
+                    rel={link.newTab ? 'noreferrer noopener' : undefined}
+                    className="hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    to={link.to}
+                    target={link.newTab ? '_blank' : undefined}
+                    className="hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
 

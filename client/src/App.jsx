@@ -11,6 +11,8 @@ import Blog from './pages/Blog.jsx'
 import BlogPost from './pages/BlogPost.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
+import CustomPage from './pages/CustomPage.jsx'
+import { NavigationProvider } from './context/NavigationContext.jsx'
 import { useSanityQuery } from './hooks/useSanityQuery.js'
 import { siteSettingsQuery } from './lib/queries.js'
 
@@ -19,6 +21,7 @@ export default function App() {
   const { data: siteSettings } = useSanityQuery(siteSettingsQuery)
 
   return (
+    <NavigationProvider>
     <div className="flex min-h-screen flex-col bg-white">
       <CustomCode code={siteSettings?.headerCode} target="head" />
       <CustomCode code={siteSettings?.footerCode} target="body" />
@@ -32,6 +35,7 @@ export default function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/:slug" element={<CustomPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
@@ -39,5 +43,6 @@ export default function App() {
       <MiniPlayerBar />
       <Footer />
     </div>
+    </NavigationProvider>
   )
 }

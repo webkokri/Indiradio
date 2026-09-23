@@ -1,5 +1,6 @@
 const SINGLETONS = [
   { id: 'siteSettings', title: 'Site Settings' },
+  { id: 'navigation', title: 'Navigation (Header & Footer)' },
   { id: 'homePage', title: 'Home Page' },
   { id: 'aboutPage', title: 'About Page' },
   { id: 'radioPage', title: 'Radio Page' },

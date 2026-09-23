@@ -7,9 +7,15 @@ import blogPost from './blogPost'
 import teamMember from './teamMember'
 import show from './show'
 import contactSubmission from './contactSubmission'
+import navigation from './navigation'
+import navLink from './navLink'
+import page from './page'
 
 export const schemaTypes = [
   siteSettings,
+  navigation,
+  navLink,
+  page,
   homePage,
   aboutPage,
   radioPage,
